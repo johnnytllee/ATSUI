@@ -1,0 +1,7 @@
+Johnny Lee 2013/11/9
+
+Qtperf, a tool to benchmark Qt graphics performance.
+Can get it at https://code.google.com/p/qtperf
+
+Tpv_qtperf is a Two Panel View of qtperf. One panel
+for native QWidget, the other for opengl QGLWidget.
