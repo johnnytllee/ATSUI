@@ -43,8 +43,18 @@
 #include "glwidget.h"
 #include "window.h"
 
-Window::Window()
+Window::Window(): stepsPerItem(0)
 {
+#if 1
+    QGridLayout *mainLayout = new QGridLayout;
+    glWidgets[0][0] = new GLWidget(0, 0);
+    glWidgets[0][0]->setClearColor(QColor(0,0,0,0));
+//    glWidgets[0][0]->rotateBy(0 * 16, 0 * 16, 0 * 16);
+    glWidgets[0][0]->rotateBy(-32 * 16, 0 * 16, 0 * 16);
+    mainLayout->addWidget(glWidgets[0][0],0,0);
+    connect(glWidgets[0][0], SIGNAL(clicked()),
+            this, SLOT(setCurrentGlWidget()));
+#else
     QGridLayout *mainLayout = new QGridLayout;
 
     for (int i = 0; i < NumRows; ++i) {
@@ -56,23 +66,27 @@ Window::Window()
 
             glWidgets[i][j] = new GLWidget(0, 0);
             glWidgets[i][j]->setClearColor(clearColor);
-            glWidgets[i][j]->rotateBy(+42 * 16, +42 * 16, -21 * 16);
-            //glWidgets[i][j]->rotateBy(+42 * 16, +42 * 16, -21 * 16);
+            glWidgets[i][j]->rotateBy(-32 * 16, 0 * 16, 0 * 16);
             mainLayout->addWidget(glWidgets[i][j], i, j);
 
             connect(glWidgets[i][j], SIGNAL(clicked()),
                     this, SLOT(setCurrentGlWidget()));
         }
     }
+#endif
     setLayout(mainLayout);
 
     currentGlWidget = glWidgets[0][0];
+
+    QTimer *timerItem = new QTimer(this);
+    connect(timerItem, SIGNAL(timeout()), this, SLOT(rotateOneItem()));
+    timerItem->start(3000);
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(rotateOneStep()));
     timer->start(20);
 
-    setWindowTitle(tr("Textures"));
+    setWindowTitle(tr("ATSUI - Asdt Tpv Superior User Interface"));
 }
 
 void Window::setCurrentGlWidget()
@@ -80,9 +94,16 @@ void Window::setCurrentGlWidget()
     currentGlWidget = qobject_cast<GLWidget *>(sender());
 }
 
+void Window::rotateOneItem()
+{
+    stepsPerItem = STEPS_PER_ITEM;
+}
+
 void Window::rotateOneStep()
 {
-    if (currentGlWidget)
-        currentGlWidget->rotateBy(+0 * 16, +2 * 16, -0 * 16);
-        //currentGlWidget->rotateBy(+2 * 16, +2 * 16, -1 * 16);
+    if (stepsPerItem) {
+        stepsPerItem--;
+        if (currentGlWidget)
+            currentGlWidget->rotateBy(0 * 16, -1 * 16, 0 * 16);
+    }
 }

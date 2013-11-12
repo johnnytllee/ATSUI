@@ -54,6 +54,7 @@ public:
 
 private slots:
     void setCurrentGlWidget();
+    void rotateOneItem();
     void rotateOneStep();
 
 private:
@@ -61,6 +62,8 @@ private:
 
     GLWidget *glWidgets[NumRows][NumColumns];
     GLWidget *currentGlWidget;
+    int stepsPerItem;
+    const static int STEPS_PER_ITEM = 60;
 };
 
 #endif
