@@ -41,7 +41,7 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QtWidgets>
+#include <QWidget>
 #include <QGLWidget>
 
 QT_FORWARD_DECLARE_CLASS(QGLShaderProgram);
@@ -79,6 +79,7 @@ private:
     int yRot;
     int zRot;
     GLuint textures[6];
+    QPixmap *pic[6];
     QVector<QVector3D> vertices;
     QVector<QVector2D> texCoords;
 #ifdef QT_OPENGL_ES_2

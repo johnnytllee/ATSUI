@@ -38,7 +38,7 @@
 **
 ****************************************************************************/
 
-#include <QtWidgets>
+#include <QWidget>
 #include <QtOpenGL>
 
 #include "glwidget.h"
@@ -88,7 +88,10 @@ void GLWidget::initializeGL()
     makeObject();
 
     glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_CULL_FACE);
+//    glEnable(GL_CULL_FACE); /* Do not draw back side. */
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 #ifndef QT_OPENGL_ES_2
     glEnable(GL_TEXTURE_2D);
 #endif
@@ -173,6 +176,14 @@ void GLWidget::paintGL()
 
     for (int i = 0; i < 6; ++i) {
         glBindTexture(GL_TEXTURE_2D, textures[i]);
+#if 0
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, pic[i]->width(), pic[i]->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, pic[i]->bits() );
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+#endif
         glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
     }
 }
@@ -240,8 +251,10 @@ void GLWidget::makeObject()
     };
 #endif
     for (int j=0; j < 6; ++j) {
+        pic[j] = new QPixmap(QString(":/images/side%1.png").arg(j + 1));
+        //qDebug()<<"format = "<<pic[j]->format();
         textures[j] = bindTexture
-            (QPixmap(QString(":/images/side%1.png").arg(j + 1)), GL_TEXTURE_2D);
+                (*pic[j], GL_TEXTURE_2D);
     }
 
     for (int i = 0; i < 6; ++i) {

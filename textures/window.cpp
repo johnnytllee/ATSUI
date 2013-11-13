@@ -38,8 +38,9 @@
 **
 ****************************************************************************/
 
-#include <QtWidgets>
-
+#include <QWidget>
+#include <QLayout>
+#include <QTimer>
 #include "glwidget.h"
 #include "window.h"
 
