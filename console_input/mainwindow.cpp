@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "console_input.h"
+#include "ConsoleInput.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    c_in = new console_input;
+    c_in = new ConsoleInput;
     connect(c_in, SIGNAL(key_clicked(QKeyEvent*)), this, SLOT(received_key(QKeyEvent*)));
     c_in->start();
 }

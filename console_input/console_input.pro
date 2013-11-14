@@ -14,9 +14,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    console_input.cpp
+    ConsoleInput.cpp
 
 HEADERS  += mainwindow.h \
-    console_input.h
+    ConsoleInput.h
 
 FORMS    += mainwindow.ui
