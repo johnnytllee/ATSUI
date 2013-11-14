@@ -62,6 +62,12 @@ void console_input::run()
 		case 0xa:
 			k = Qt::Key_Enter;
 			break;
+		case 0x1b: {
+			if (kbhit() && getchar() == 0x5b)
+				continue;
+			k = Qt::Key_Escape;
+		}
+			break;
 		default:
 			continue;
 		}
