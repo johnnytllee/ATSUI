@@ -42,6 +42,7 @@
 #define WINDOW_H
 
 #include <QWidget>
+#include <QKeyEvent>
 
 class GLWidget;
 
@@ -51,6 +52,7 @@ class Window : public QWidget
 
 public:
     Window();
+    virtual void keyPressEvent(QKeyEvent *);
 
 private slots:
     void setCurrentGlWidget();
@@ -64,6 +66,7 @@ private:
     GLWidget *currentGlWidget;
     int stepsPerItem;
     const static int STEPS_PER_ITEM = 60;
+    bool rotate_clockwise;
 };
 
 #endif

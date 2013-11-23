@@ -44,7 +44,9 @@
 #include "glwidget.h"
 #include "window.h"
 
-Window::Window(): stepsPerItem(0)
+Window::Window():
+    stepsPerItem(0),
+    rotate_clockwise(false)
 {
 #if 1
     QGridLayout *mainLayout = new QGridLayout;
@@ -90,6 +92,25 @@ Window::Window(): stepsPerItem(0)
     setWindowTitle(tr("ATSUI - Asdt Tpv Superior User Interface"));
 }
 
+void Window::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key()) {
+    case Qt::Key_Up:
+        break;
+    case Qt::Key_Down:
+        break;
+    case Qt::Key_Left:
+        rotate_clockwise = false;
+        break;
+    case Qt::Key_Right:
+        rotate_clockwise = true;
+        break;
+    default:
+        QWidget::keyPressEvent(e);
+        break;
+    }
+}
+
 void Window::setCurrentGlWidget()
 {
     currentGlWidget = qobject_cast<GLWidget *>(sender());
@@ -105,6 +126,6 @@ void Window::rotateOneStep()
     if (stepsPerItem) {
         stepsPerItem--;
         if (currentGlWidget)
-            currentGlWidget->rotateBy(0 * 16, -1 * 16, 0 * 16);
+            currentGlWidget->rotateBy(0 * 16, (rotate_clockwise?1:-1) * 16, 0 * 16);
     }
 }

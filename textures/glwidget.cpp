@@ -86,12 +86,11 @@ void GLWidget::setClearColor(const QColor &color)
 void GLWidget::initializeGL()
 {
     makeObject();
-
+    glMatrixMode(GL_MODELVIEW);
     glEnable(GL_DEPTH_TEST);
 //    glEnable(GL_CULL_FACE); /* Do not draw back side. */
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 #ifndef QT_OPENGL_ES_2
     glEnable(GL_TEXTURE_2D);
 #endif
